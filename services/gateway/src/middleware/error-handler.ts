@@ -1,0 +1,1 @@
+// 捕获 ToolError 等，返回标准化 JSON 错误

@@ -1,0 +1,15 @@
+{
+  "name": "@tools-hub/tools-backend",
+  "version": "1.0.0",
+  "main": "dist/registry.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@tools-hub/tool-sdk": "workspace:^"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}
