@@ -1,2 +1,2 @@
-# tool-hub
+# tools-hub
 工具集
