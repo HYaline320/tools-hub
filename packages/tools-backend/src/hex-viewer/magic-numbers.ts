@@ -37,4 +37,6 @@ export const MAGIC_NUMBERS: MagicEntry[] = [
   { hex: "D0CF11E0", type: "MS Office (OLE2)", extensions: ["doc", "xls", "ppt"] },
   { hex: "GIF89a", type: "GIF89a (text form)", extensions: ["gif"] },
   // UE GVAS 存档我们单独处理，这里先不写，后面会通过工具自身识别
+  { hex: "475641", type: "GVAS (UE4 save)", extensions: ["sav"] },
+
 ];

@@ -39,12 +39,12 @@ export class GvasEditorHandler extends BaseToolHandler {
     await this.ensureBinary();
 
     if (params.mode === 'parse') {
-    return this.parseGvas(files);
-  } else {
-    // 从 params 中获取原始文件名（可能为空）
-    const originalName = params.originalFileName || undefined;
-    return this.generateGvas(params.jsonData, originalName);
-  }
+      return this.parseGvas(files);
+    } else {
+      // 从 params 中获取原始文件名（可能为空）
+      const originalName = params.originalFileName || undefined;
+      return this.generateGvas(params.jsonData, originalName);
+    }
   }
 
   /** 检查 uesave 二进制是否存在且可执行 */
@@ -105,12 +105,12 @@ export class GvasEditorHandler extends BaseToolHandler {
       ]);
     } catch (err) {
       // 清理临时 JSON 并抛出
-      await fs.unlink(tmpJsonPath).catch(() => {});
+      await fs.unlink(tmpJsonPath).catch(() => { });
       throw new Error('GVAS 生成失败：' + (err as Error).message);
     }
 
     // 清理临时 JSON 文件
-    await fs.unlink(tmpJsonPath).catch(() => {});
+    await fs.unlink(tmpJsonPath).catch(() => { });
 
     return {
       downloadFile: {
