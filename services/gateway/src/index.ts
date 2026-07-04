@@ -2,6 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import { config } from './config.js'; 
+import { existsSync, mkdirSync } from 'fs';
 import { errorHandler } from './middleware/error-handler.js';
 import { getAllToolMeta } from '@tools-hub/tools-backend';
 import fileRouter from './routes/file.route.js';
@@ -25,6 +26,14 @@ app.use('/api/files', fileRouter);
 
 // 全局错误处理
 app.use(errorHandler);
+
+// 确保文件存储目录存在
+if (!existsSync(config.fileStoragePath)) {
+  mkdirSync(config.fileStoragePath, { recursive: true });
+}
+
+// 将绝对路径写入环境变量，供工具层读取（避免工具层再解析相对路径）
+process.env.FILE_STORAGE_PATH = config.fileStoragePath;
 
 // 启动服务
 app.listen(config.port, () => {

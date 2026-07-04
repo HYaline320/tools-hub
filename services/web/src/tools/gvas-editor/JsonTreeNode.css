@@ -1,0 +1,76 @@
+/* JsonTreeNode.css */
+.json-node {
+  user-select: none;
+}
+
+.node-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 2px 0;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.node-header:hover {
+  background: #f0f2f5;
+}
+
+.arrow {
+  font-size: 0.7rem;
+  width: 14px;
+  text-align: center;
+  margin-right: 4px;
+  color: #6b7280;
+  transition: transform 0.15s;
+  display: inline-block;
+}
+
+.arrow.expanded {
+  transform: rotate(90deg);
+}
+
+.key {
+  font-weight: 500;
+  color: #0f172a;
+  margin-right: 0.5rem;
+}
+
+.summary {
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+.node-leaf {
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.node-leaf .key {
+  font-weight: 500;
+  color: #0f172a;
+  margin-right: 0.5rem;
+}
+
+.node-leaf .separator {
+  margin-right: 0.5rem;
+  color: #6b7280;
+}
+
+.value-string {
+  color: #059669;
+}
+
+.value-number {
+  color: #2563eb;
+}
+
+.value-boolean {
+  color: #7c3aed;
+}
+
+.value-null {
+  color: #9ca3af;
+  font-style: italic;
+}

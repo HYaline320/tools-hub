@@ -27,5 +27,10 @@ export async function executeTool(toolName: string, params: any, files: File[]) 
   const res = await apiClient.post(`/tools/${toolName}/execute`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
-  return res.data;
+  // 网关返回 { success: true, data: ToolResult }
+  if (res.data.success) {
+    return res.data;  // 直接返回工具结果
+  } else {
+    throw new Error(res.data.error || '请求失败');
+  }
 }

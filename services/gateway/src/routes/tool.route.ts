@@ -29,7 +29,12 @@ router.post(
       const result = await runTool(toolName, params, fileRefs);
 
       // 如果结果包含下载文件，目前简单返回 JSON 文件引用，实际可改为流式下载
-      res.json({ success: true, data: result });
+      res.json({
+        success: true,
+        data: result.data,                  // 业务数据，直接赋值，前端通过 response.data 获取
+        downloadFile: result.downloadFile,  // 下载文件引用（若有）
+        taskId: result.taskId,              // 异步任务ID（若有）
+      });
     } catch (err) {
       next(err);
     }
