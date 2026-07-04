@@ -1,26 +1,48 @@
-# 阶段1: 构建阶段 [B]
+# ===== 构建阶段 =====
 FROM node:24.11.0-slim AS builder
 WORKDIR /app
-# 利用 pnpm workspace 的依赖管理
+
+# 安装 pnpm
+RUN npm install -g pnpm
+
+# 复制 monorepo 配置文件
 COPY pnpm-workspace.yaml ./
 COPY package.json ./
+COPY tsconfig.base.json ./
 COPY packages/tool-sdk/package.json packages/tool-sdk/
 COPY packages/tools-backend/package.json packages/tools-backend/
 COPY services/gateway/package.json services/gateway/
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
-# 拷贝源码并构建
-COPY tsconfig.base.json ./
+# 安装依赖（利用缓存）
+RUN pnpm install --frozen-lockfile
+
+# 复制源代码
 COPY packages/tool-sdk/ packages/tool-sdk/
 COPY packages/tools-backend/ packages/tools-backend/
 COPY services/gateway/ services/gateway/
-RUN pnpm run build --filter @tools-hub/gateway
 
-# 阶段2: 运行阶段 [R]
+# 编译所有必需的包
+RUN pnpm run build --filter @tools-hub/tool-sdk --filter @tools-hub/tools-backend --filter @tools-hub/gateway
+
+# ===== 运行阶段 =====
 FROM node:24.11.0-slim
 WORKDIR /app
+
+# 只复制运行时所需的产物和依赖
 COPY --from=builder /app/services/gateway/dist ./dist
 COPY --from=builder /app/services/gateway/node_modules ./node_modules
-# 如果有其他包运行时依赖，也需要复制（tool-sdk编译后已在dist内）
+COPY --from=builder /app/packages/tool-sdk/dist ./packages/tool-sdk/dist
+COPY --from=builder /app/packages/tools-backend/dist ./packages/tools-backend/dist
+
+# 复制 uesave 二进制
+COPY packages/tools-backend/bin/uesave /usr/local/bin/uesave
+RUN chmod +x /usr/local/bin/uesave
+
+# 如果工具需要访问本地文件存储，确保目录存在
+RUN mkdir -p /data/uploads
+ENV FILE_STORAGE_PATH=/data/uploads
+ENV UESAVE_PATH=/usr/local/bin/uesave
+VOLUME /data/uploads
+
 EXPOSE 3000
 CMD ["node", "dist/index.js"]
