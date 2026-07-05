@@ -8,6 +8,10 @@ import { promisify } from 'util';
 import path from 'path';
 import fs from 'fs/promises';
 import { v4 as uuidv4 } from 'uuid';  // 生成临时 ID（需安装 uuid 包和 @types/uuid）
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const execFileAsync = promisify(execFile);
 

@@ -68,7 +68,6 @@ async function parseFile(e: Event) {
   errorMsg.value = '';
   try {
     const response = await executeTool('gvas-editor', { mode: 'parse' }, [file]);
-    console.log(response)
     jsonContent.value = response.data.jsonData;
   } catch (err) {
     errorMsg.value = '解析失败';
@@ -96,7 +95,6 @@ async function downloadGvas() {
       jsonData: jsonContent.value,
       originalFileName: originalFileName.value,
     }, []);
-    console.log(response)
     const fileId = response.downloadFile?.id;
     
     if (fileId) {

@@ -3,6 +3,10 @@ import { IToolHandler } from '@tools-hub/tool-sdk';
 import { ImageResizeHandler } from './image-resize/index.js';
 import { HexViewerHandler } from './hex-viewer/index.js';
 import { GvasEditorHandler } from './gvas-editor/index.js';
+import { DBEditorHandler } from './db-editor/index.js';
+// ...
+
+
 
 /**
  * 工具注册表，目前手动注册，未来可改为自动扫描目录。
@@ -21,6 +25,9 @@ toolMap.set(hexViewer.meta.name, hexViewer);
 const gvasEditor = new GvasEditorHandler();
 toolMap.set(gvasEditor.meta.name, gvasEditor);
 
+const sqlEditor = new DBEditorHandler();
+toolMap.set(sqlEditor.meta.name, sqlEditor);
+
 /**
  * 获取所有注册工具的元信息（用于前端工具列表）
  */
@@ -34,3 +41,5 @@ export function getAllToolMeta(): IToolHandler['meta'][] {
 export function getToolHandler(name: string): IToolHandler | undefined {
   return toolMap.get(name);
 }
+
+

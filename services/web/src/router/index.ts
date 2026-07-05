@@ -23,6 +23,11 @@ const routes = [
     name: 'gvas-editor',
     component: () => import('../tools/gvas-editor/index.vue'),
   },
+  {
+    path: '/tool/db-editor',
+    name: 'db-editor',
+    component: () => import('../tools/db-editor/index.vue'),
+  }
 ];
 
 const router = createRouter({

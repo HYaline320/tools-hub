@@ -2,17 +2,22 @@
   "name": "@tools-hub/tools-backend",
   "version": "1.0.0",
   "main": "dist/registry.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:sout": "vitest --reporter=verbose",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@tools-hub/tool-sdk": "workspace:^",
+    "exceljs": "^4.4.0",
     "uuid": "^14.0.1"
   },
   "devDependencies": {
     "@types/node": "^26.1.0",
-    "@types/uuid": "^11.0.0",
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "vitest": "^1.6.1"
   }
 }

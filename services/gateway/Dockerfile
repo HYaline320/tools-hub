@@ -2,6 +2,10 @@
 FROM node:24.11.0-slim AS builder
 WORKDIR /app
 
+
+
+# 安装系统依赖
+RUN apt-get update && apt-get install -y sqlite3 build-essential python3 && rm -rf /var/lib/apt/lists/*
 # 安装 pnpm
 RUN npm install -g pnpm
 

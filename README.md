@@ -11,3 +11,5 @@ pnpm -F @tools-hub/web dev
 
 # 本地首页
 http://localhost:5173
+
+pnpm approve-builds

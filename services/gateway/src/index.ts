@@ -7,6 +7,16 @@ import { errorHandler } from './middleware/error-handler.js';
 import { getAllToolMeta } from '@tools-hub/tools-backend';
 import fileRouter from './routes/file.route.js';
 import toolRouter from './routes/tool.route.js';
+import { startFileCleaner } from './file-cleaner.js';
+
+process.on('uncaughtException', (err) => {
+  console.error('FATAL - 未捕获异常:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('FATAL - 未处理的Promise拒绝:', reason);
+});
 
 const app = express();
 
@@ -35,8 +45,12 @@ if (!existsSync(config.fileStoragePath)) {
 // 将绝对路径写入环境变量，供工具层读取（避免工具层再解析相对路径）
 process.env.FILE_STORAGE_PATH = config.fileStoragePath;
 
+// 启动文件清理
+startFileCleaner();
+
 // 启动服务
 app.listen(config.port, () => {
   console.log(`🚀 网关服务已启动：http://localhost:${config.port}`);
   console.log(`📦 已注册工具数：${getAllToolMeta().length}`);
 });
+
